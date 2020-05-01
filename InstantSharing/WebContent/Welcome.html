@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Instant Sharing Connection</title>
+
+<script type="text/javascript" src="scripts/instantsharing.js"></script>
+
+<script>
+
+
+
+function connect() {
+	
+	  var logon = document.getElementById('identifierInput').value;
+	  var pswd = document.getElementById('passwordInput').value;
+	  var modal = document.getElementById('msgFromServerModal');
+	  var msg = document.getElementById('msgFromServerInfo');  
+	  var userLang = navigator.language || navigator.userLanguage;
+	  
+	  if(logon == "" || pswd == ""){
+		  if(userLang.indexOf("fr") != -1){
+			  modal.style.display = "block";
+			  msg.innerHTML = "Veuillez renseigner l'identifiant et le mot de passe.";
+		  } else {
+			  modal.style.display = "block";
+			  msg.innerHTML = "You must set the identifier and the password.";
+		  }
+	  } else {
+	  
+		var uri = encodeURI("lang=" + userLang + "&logon="+logon+"&pswd="+pswd);
+		  
+   	    var xmlReq = initXMLHttpRequest(); //initialize XMLHttpRequest
+	    if (xmlReq) {
+	        xmlReq.onreadystatechange = function() {
+	            var data;
+	            if (xmlReq.readyState == READY_STATE_COMPLETE) { //Verify status of the query
+	                data = xmlReq.responseText; //Read response
+	                
+	                if(data.indexOf("OK") > -1){//Connexion ok for the server
+	                	window.location.href = data.substring(4,data.length);
+	                } else{
+	                	modal.style.display = "block";
+	                	msg.innerHTML = data;
+	                }
+	            } 
+	            else {
+	            	modal.style.display = "block";
+	            	msg.innerHTML = WAIT_STATE_MSG;
+	            }
+	        };
+	        
+	        xmlReq.open("POST", "VerifyConnection", true); //Call URL 
+			xmlReq.setRequestHeader("Content-type","application/x-www-form-urlencoded;charset=UTF-8"); 
+	        xmlReq.send(uri); //Parameters
+	    }
+	}
+}
+
+
+function cancel(){
+	document.getElementById("passwordInput").value = "";
+	document.getElementById("identifierInput").value = "";
+}
+
+
+window.addEventListener('keypress', function (e) {
+	if (e.keyCode == 13){
+		connect();
+	}
+}, false);
+
+</script>
+
+
+<link rel="stylesheet" href="styles/w3.css">
+
+<style>
+
+/* Full-width inputs */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+button {
+  background-color: #57C4F2;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+/* Add a hover effect for buttons */
+button:hover {
+  opacity: 0.8;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+
+/* Extra style for the cancel button (red) */
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #f44336;
+}
+/* Add padding to containers */
+.container {
+  padding: 16px;
+  width: 500px;
+  background-color:#FFFFFF;
+}
+
+/* The "Forgot password" text */
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+    display: block;
+    float: none;
+  }
+  .cancelbtn {
+    width: 100%;
+  }
+  
+  .fa-facebook {
+    color: rgb(59, 91, 152);
+  }
+}
+
+</style>
+
+
+</head>
+<body onload="document.getElementById('identifierInput').focus();">
+<!-- Header -->
+	<div class="w3-display-topleft">
+		<img src="pictures/InstantsharingIcon.svg" width="300px" />
+	</div>
+<!-- Footer -->	
+	<div class="w3-display-bottomright w3-margin-right">
+		
+		<p>Openjdev.org 2020 - v1.0 - pre-Release</p>
+	</div>
+
+<!-- Login Form -->	
+	<div class="container w3-round-xlarge w3-border w3-display-middle">
+		<!-- Login input -->
+		<label id="identifier" for="uname"><b>Logon</b></label> 
+		<input id="identifierInput" type="text" placeholder="Saisir identifiant" required>
+		 <!-- Pswd input -->
+		<label id="password" for="psw"><b>Password</b></label>
+		<input id="passwordInput" type="password" placeholder="Saisir le mot de passe" required>
+		<!-- Button to submit request -->
+		<button id="buttonSubmit" type="submit" onclick="connect()">Connection</button>
+
+		<br><br>
+		<div style="background-color: #f1f1f1; padding: 10px;">
+			<button id="buttonCancel" type="button" class="cancelbtn" onclick="cancel();">Cancel</button>
+			<span class="psw"><a id="forgotPswd" href="#" onclick="document.getElementById('helpdesk').style.display='block';">Need help?</a></span>
+		</div>
+		<br>		
+	</div>
+
+<div id="helpdesk" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<div class="w3-container w3-padding-64">
+			<span onclick="document.getElementById('helpdesk').style.display='none';" class="w3-button w3-display-topright">&times;</span>
+			
+			<p><img width="50px" height="50px" src="pictures/mail.svg"/>Get support: <a href="mailto:charles.vissol@ariane.group">charles.vissol@gmail.com</a></p>
+			
+			
+		</div>
+	</div>
+</div>
+
+
+  <div id="msgFromServerModal" class="w3-modal w3-animate-opacity" style="display:none;">
+    <div class="w3-modal-content w3-card-4">
+      <header class="w3-container w3-blue"> 
+        <span onclick="document.getElementById('msgFromServerModal').style.display='none'" 
+        class="w3-button w3-display-topright">&times;</span>
+        <h2><span style="color:#F048C6;font-weight: bold;">&lt;</span><span style="font-weight: bold;">Instant Sharing</span>/<span style="color:#F048C6;font-weight: bold;">&gt;</span></h2>
+      </header>
+      <div class="w3-container">
+      	<br>
+        <p id="msgFromServerInfo"></p>
+		<br>
+      </div>
+      <!-- <footer class="w3-container w3-blue">
+        <p>Connection information</p>
+      </footer> -->
+    </div>
+  </div>
+
+</body>
+</html>

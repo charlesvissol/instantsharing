@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Instant Sharing</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="styles/w3.css">
+<!-- Priority to is.css vs w3.css for global style -->
+<link rel="stylesheet" href="styles/is.css">
+<link rel="stylesheet" href="styles/dropzone.css">
+
+
+<script type="text/javascript" src="scripts/instantsharing.js"></script>
+<script type="text/javascript" src="scripts/w3.js"></script>
+<script type="text/javascript" src="scripts/dropzone.js"></script>
+
+
+
+
+
+</head>
+<body>
+<div class="w3-sidebar w3-bar-block w3-black w3-xxlarge" style="width:70px;right:0px;top:0px;">
+  <a href="#" onclick="w3_open_lists()" class="w3-bar-item w3-button"><img id="img-lists" src="pictures/users-add.svg" width="40px" height="40px" title="My lists"/></a> 
+  <a href="#" class="w3-bar-item w3-button"><img id="img-shared" src="pictures/share.svg" width="40px" height="40px" title="My shared files"/></a> 
+  <a href="#" class="w3-bar-item w3-button"><img id="img-download" src="pictures/download.svg" width="40px" height="40px" title="My files to download"/></a> 
+</div>
+
+<div style="margin-left:70px;top:0px;">
+
+<h2 id="mainpage-title">Instant File Sharing</h2>
+
+
+
+	<div class="w3-row" style="width: 80%;">
+		<div class="w3-col w3-container s5">
+
+
+			<label id="label-recipients">Recipients*</label>
+			
+			<div class="w3-bar-block w3-light-grey autocomplete-items" id="input-recipients-autocomplete">
+				<input id="input-recipients" class="w3-input w3-border w3-padding w3-round" onkeyup="getlistofusers(event,'selection','input-recipients','recipients-list')" >
+				
+				
+				<ul id="selection" class="w3-ul w3-card-4" style="display:none;cursor: pointer;"> <!-- onkeyup="move(event)"> -->
+				
+				</ul>
+			</div>
+			
+			
+		</div>
+		
+		<div class="w3-col w3-container s2">
+			<button onclick="addlist();" class="addlistbtn w3-blue w3-hover-red"><img src="pictures/users.svg" width="40px" height="40px" style="cursor:pointer;" id="iconAddList" title="Add List"/></button>
+		</div>
+		<div class="w3-col w3-container s5">
+			
+			<ul id="recipients-list" class="w3-ul w3-card-4">
+			
+			</ul>
+		</div>
+	</div>
+
+
+
+
+	<div class="w3-row" style="width: 80%;">
+		<div class="w3-col w3-container s12">
+			<form action="Uploader" method="POST" class="dropzone w3-panel w3-round-xlarge w3-padding-32" id="dropzone"  title="Drag and Drop your files...">
+	
+			</form>	
+		</div>
+	</div>
+	<div class="w3-row" style="width: 80%;">
+		<div class="w3-col w3-container s6">
+			<p class="w3-wide" id="sharing-uid"></p>
+		</div>
+	
+		<div class="w3-col w3-container s6">
+			<div class="w3-right">
+				<img id="img-lock" src="pictures/lock-open.svg" width="40px" height="40px" style="right:130px;cursor: pointer;" title="Add message..." onclick=""/>
+				
+				<span>&nbsp;</span>
+				
+				<img id="img-addcomment" src="pictures/comment.svg" width="40px" height="40px" style="right:130px;cursor: pointer;" title="Add message..." onclick="w3_open_msg()"/>
+				
+				<span>&nbsp;</span>
+				
+				<button id="btn-share" class="w3-button w3-blue w3-hover-red" style="right:30px;">Share</button>
+			</div>
+		</div>
+						
+	
+			
+
+	</div>
+	<img src="pictures/InstantsharingIcon.svg" width="200px;" style="position:absolute;bottom:20px;right:90px;"/>
+</div>
+
+
+
+
+
+<!-- Modal to add message (optional) to file sharing -->
+<div class="w3-modal" id="msg" style="z-index:100;">
+
+	<div class="w3-modal-content is-default-bgcolor" style="max-width: 50%;">
+	
+		<div class="w3-container">
+		  <button id="btn-close-modal-msg" onclick="w3_close_msg()" class="w3-bar-item w3-button w3-large w3-display-topright" style="color:#ffffff;">Close &times;</button>
+		  <br>
+		  
+		  <div class="w3-row w3-padding-32">
+		  	<label for="message_content" id="label-msg-modal" style="color:white;">Message content:</label>
+		  	<div id="message_content" contenteditable="true" class="w3-middle w3-round w3-dark-grey" style="width: 100%; resize: vertical; min-height:150px"> </div>
+		  	<br>
+		  	
+		  </div>
+		  <div class="w3-row ">	
+		  	  
+		  		<button id="btn-validate" class="w3-button w3-black w3-hover-red w3-display-bottomright" title="Validate message" onclick="validate_msg()">OK</button>
+		  	
+		  </div>
+		  
+	  </div>
+	</div>
+</div>
+
+
+
+
+<!-- Modal to manage broadcast lists -->
+<div class="w3-modal" id="mylists" style="z-index:100;">
+
+<div class="w3-modal-content w3-padding-32 is-default-bgcolor">
+ 
+  <button id="btn-close-modal-mylists" onclick="w3_close_lists()" class="w3-bar-item w3-button w3-large w3-display-topright" style="color:#ffffff;">Close &times;</button>
+
+
+
+<div class="w3-container" id="mylists" style="overflow:auto;height:90%;">
+
+	<div class="w3-row">
+		<div class="w3-col s12 w3-padding-16">	
+
+			<h2 id="add-mylists-title" style="color:white;">Add a new recipients list</h2>
+			
+			<br>
+			
+			<label id="label-list-name" style="color:white;">List name*</label>
+			<input id="input-list-name" class="w3-input is-default-bgcolor" type="text">
+			<br>
+			
+			<input id="input-community" class="w3-check" type="checkbox">
+			<label id="label-community">Community</label>
+
+		</div>
+	</div>
+
+	<div class="w3-row">
+		<div class="w3-col s5 w3-padding-16">
+
+			<label id="label-list-recipients" style="color:white;">Recipients*</label>
+			
+			<div class="w3-bar-block w3-light-grey autocomplete-items" id="input-list-recipients-autocomplete">
+				<input id="input-list-recipients" class="w3-input is-default-bgcolor" onkeyup="getlistofusers(event,'list-selection','input-list-recipients','recipients-new-list')" >
+				
+				
+				<ul id="list-selection" class="w3-ul w3-card-4" style="display:none;cursor: pointer;">
+				
+				</ul>
+			</div>
+
+		</div>
+		
+		<div class="w3-col s1 w3-padding-16">&nbsp;</div>
+		
+		<div class="w3-col s6 w3-padding-16">
+
+			<ul id="recipients-new-list" class="w3-ul w3-card-4 w3-light-grey">
+			
+			</ul>
+		</div>		
+
+	</div>
+	
+	<div class="w3-row">
+		<div class="w3-col s12 w3-padding-16">	
+			<div class="w3-right">
+				<button id="btn-create-new-list" class="w3-button w3-black w3-hover-red" onclick="createlist()">Create</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="w3-row">
+			<div id="msg-new-list-created" style="display:block;">
+				
+			</div>
+	</div>
+	
+</div>
+
+
+
+</div>
+</div>
+
+
+
+
+
+<script>
+	
+	function w3_open_msg() {  
+	  document.getElementById("msg").style.width = "100%";
+	  document.getElementById("msg").style.display = "block";
+	  document.getElementById("message_content").focus();
+		  
+	}
+	
+	function w3_open_lists(){
+	  document.getElementById("mylists").style.width = "100%";
+	  document.getElementById("mylists").style.display = "block";
+		
+	}
+	
+	function w3_close_msg() {
+		  document.getElementById("msg").style.display = "none";
+		  document.getElementById("message_content").value = "";
+
+	}
+
+	function w3_close_lists(){
+		  document.getElementById("msg-new-list-created").innerHTML = "";
+		  document.getElementById("mylists").style.display = "none";
+	}	
+	
+	function validate_msg(){
+		document.getElementById("msg").style.display = "none";
+	}
+
+	
+</script>
+
+
+</body>
+</html>
