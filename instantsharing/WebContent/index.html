@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="styles/w3.css">
+<title>Instant Sharing Entry Point</title>
+</head>
+<body>
+<!-- First page to access to ConfluenceViewer. Redirect automatically the user to Welcome Servlet -->
+<div class="w3-display-middle">
+	<div>
+		<img src="pictures/InstantsharingIcon.svg"/>
+	</div>
+</div>
+	<script>
+		var userLang = navigator.language || navigator.userLanguage; 
+		window.location.href = "Welcome?lang=" + userLang;//Go to Welcome Servlet
+	</script>
+</body>
+</html>
