@@ -4,9 +4,9 @@ create database instantsharing with encoding='UTF-8' owner instantsharing;
 --
 -- Create role table to manage access rights
 --
-drop table if exists role cascade;
+drop table if exists isrole cascade;
 
-CREATE TABLE role (
+CREATE TABLE isrole (
     id serial PRIMARY KEY,
     designation character varying(50) NOT NULL
 );
@@ -27,13 +27,13 @@ CREATE TABLE isuser (
     password character varying(100) NOT NULL,
 	lang character varying(2) NOT NULL,
     email character varying(100) NOT NULL,
-    id_role integer NOT NULL,
+    id_isrole integer NOT NULL,
     active boolean DEFAULT true NOT NULL
 );
 
 alter table isuser add constraint logon_index UNIQUE (logon);
 
-ALTER TABLE ONLY isuser ADD CONSTRAINT isuser_roleidfk_fkey FOREIGN KEY (id_role) REFERENCES role(id);
+ALTER TABLE ONLY isuser ADD CONSTRAINT isuser_isroleidfk_fkey FOREIGN KEY (id_isrole) REFERENCES isrole(id);
 
 -- alter table only isuser add column companylogo bytea;
 
@@ -186,23 +186,12 @@ ALTER TABLE ONLY isdownload ADD CONSTRAINT isdownload_isfileidfk_fkey FOREIGN KE
 --
 -- Insert Data
 --
-INSERT INTO role (id,designation) VALUES (1, 'Administrator');
-INSERT INTO role (id,designation) VALUES (2, 'User');
+INSERT INTO isrole (id,designation) VALUES (1, 'Administrator');
+INSERT INTO isrole (id,designation) VALUES (2, 'User');
 
-INSERT INTO isuser (logon, firstname, lastname, uid, password, email, id_role, active, lang) VALUES ('administrateur', 'admin', 'admin', 'admin' , 'administrateur', 'admin@localhost', 1, true, 'fr');
-INSERT INTO isuser (logon, firstname, lastname, uid, password, email, id_role, active, lang) VALUES ('vissol', 'Charles', 'Vissol', 'a094614', 'vissol', 'charles.vissol@ariane.group', 1, true, 'fr');
-INSERT INTO isuser (logon, firstname, lastname, uid, password, email, id_role, active, lang) VALUES ('anonymous', 'anonymous', 'anonymous', 'a000000', 'anonymous', 'anonymous@ariane.group', 1, true, 'fr');
-INSERT INTO isuser (logon, firstname, lastname, uid, password, email, id_role, active, lang) VALUES ('bourreau', 'Thierry', 'Bourreau', 'A012781', 'bourreau', 'thierry.bourreau@ariane.group', 1, true, 'fr');
-INSERT INTO isuser (logon, firstname, lastname, uid, password, email, id_role, active, lang) VALUES ('morardet', 'Laetitia', 'Morardet', 'M012009', 'morardet', 'laetitia.morardet@ariane.group', 1, true, 'fr');
+INSERT INTO isuser (logon, firstname, lastname, uid, password, email, id_isrole, active, lang) VALUES ('administrateur', 'admin', 'admin', 'admin' , 'administrateur', 'admin@localhost', 1, true, 'fr');
+INSERT INTO isuser (logon, firstname, lastname, uid, password, email, id_isrole, active, lang) VALUES ('vissol', 'Charles', 'Vissol', 'a094614', 'vissol', 'charles.vissol@ariane.group', 1, true, 'fr');
+INSERT INTO isuser (logon, firstname, lastname, uid, password, email, id_isrole, active, lang) VALUES ('anonymous', 'anonymous', 'anonymous', 'a000000', 'anonymous', 'anonymous@ariane.group', 1, true, 'fr');
+INSERT INTO isuser (logon, firstname, lastname, uid, password, email, id_isrole, active, lang) VALUES ('bourreau', 'Thierry', 'Bourreau', 'A012781', 'bourreau', 'thierry.bourreau@ariane.group', 1, true, 'fr');
+INSERT INTO isuser (logon, firstname, lastname, uid, password, email, id_isrole, active, lang) VALUES ('morardet', 'Laetitia', 'Morardet', 'M012009', 'morardet', 'laetitia.morardet@ariane.group', 1, true, 'fr');
 
-
-select id,firstname,lastname,uid from isuser where lastname ilike "%" or firstname ilike "%" or companyid ilike "%";
-
-
-select * from isuserhistory;
-
-select * from isuser;
-select * from islist; 
-
-select islist.id, islist.listname, islist.created from islist,isuser as owner,islisttoisuser, isuser as recipients where 
-islisttoisuser.id_isuser=recipients.id and islist.id_isuser=owner.id
