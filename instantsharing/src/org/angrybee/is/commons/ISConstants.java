@@ -4,7 +4,7 @@ import java.util.ResourceBundle;
 
 /**
  * 
- * @author Charles Vissol
+ * @author Charles Vissol - Angrybee
  *
  */
 public class ISConstants {
