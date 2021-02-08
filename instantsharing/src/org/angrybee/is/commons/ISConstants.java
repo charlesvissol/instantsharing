@@ -2,7 +2,11 @@ package org.angrybee.is.commons;
 
 import java.util.ResourceBundle;
 
-
+/**
+ * 
+ * @author Charles Vissol
+ *
+ */
 public class ISConstants {
 
 	private static ResourceBundle resources = ResourceBundle.getBundle(ISConstants.class.getName());	

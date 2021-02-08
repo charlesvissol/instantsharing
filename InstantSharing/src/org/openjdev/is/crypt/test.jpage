@@ -1,3 +1,0 @@
-
-String key = org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric(16);System.out.println(key);
-System.out.println(key.getBytes().length);

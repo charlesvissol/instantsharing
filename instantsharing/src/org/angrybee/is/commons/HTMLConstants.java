@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
  * HTML constants to help to store information about tag and also to 
  * process
  * 
- * @author Charles Vissol - ArianeGroup - ConfluenceViewer Project
+ * @author Charles Vissol - Angrybee - ConfluenceViewer Project
  *
  */
 public class HTMLConstants {
