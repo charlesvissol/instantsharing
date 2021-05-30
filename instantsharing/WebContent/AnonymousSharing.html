@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 
 <link rel="stylesheet" href="styles/w3.css">
-<link rel="stylesheet" href="styles/is.css">
+<link rel="stylesheet" href="styles/instantsharing.css">
 <link rel="stylesheet" href="styles/dropzone.css">
 
 <title>Anonymous sharing</title>
@@ -83,6 +83,16 @@
 	100% {left:50%;}
 }
 
+.ab-animate-top {
+	position:relative;
+	animation:animatetop 1.2s
+}
+
+@keyframes animatetop {
+	from{top:-300px;opacity:0} 
+	to{top:0;opacity:1}
+}
+
 
 </style>
 
@@ -92,14 +102,14 @@
 
 <!-- Name of the tool -->
 <div class="w3-top">
-  <div class="w3-row-padding w3-animate-top">
+  <div class="w3-row-padding ab-animate-top">
     <h3 class="w3-rest ab-gray-light w3-left">
     	<span class="ab-red" style="font-weight: bold;">I</span>nstant <span class="ab-red"  style="font-weight: bold;">S</span>haring 1.0
     </h3>
     
     <!-- Feature to modify the Dark/Light Mode  -->
    <div class="w3-col w3-right w3-margin-top" style="width:150px;z-index:100;">
-	  <label class="ab-toggle-control">
+	  <label class="ab-toggle-control" title="Choose Light or Dark mode">
 	    <input id="display-mode" type="checkbox" onclick="setDisplayMode()" checked="checked">
 	    <span class="ab-control"></span>
 	  </label>
