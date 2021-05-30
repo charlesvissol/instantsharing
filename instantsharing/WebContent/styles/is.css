@@ -1,21 +1,162 @@
-li:hover {
-	background-color:#87CEEB!important;
+
+body, h1, h2, h3, h4, h5, h6 {
+	font-family: "Raleway", sans-serif
 }
 
-.addlistbtn {
-  /*background-color: #4CAF50;*/
-  border-radius: 25px;
-  color: white;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
+body, html {
+	height: 100%;
+	line-height: 1.8;
+}
+
+.ab-light-mode {
+	background-color: white;
+    color: black;	
+}
+
+.ab-dark-mode {
+	background-color: hsl(216, 13%, 15%); /* Atom Editor Background */
+	color: hsl(224, 5%, 47%);
+
+}
+
+body.ab-dark-mode img {
+  filter: brightness(.8) contrast(1.2);
+}
+
+
+.ab-text-red,.ab-hover-text-red:hover{color: hsl(336, 100%, 42%)!important}
+
+.ab-red {
+	color: hsl(336, 100%, 42%);
+}
+
+.ab-bg-gray {
+	background-color: hsl(227, 8%, 23%);
+}
+
+.ab-gray {
+	color: hsl(227, 8%, 23%);
+	text-decoration: none;
+}
+
+.ab-gray-light {
+	color: hsl(224, 5%, 47%);
+	text-decoration: none;
+}
+
+.ab-opacity-show {
+	animation: show 2.0s
+}@keyframes show {from {opacity: 0}to {opacity: 1}}
+
+.ab-opacity-hide {
+	animation: hide 2.0s
+}@keyframes hide {from {opacity: 1}to {opacity: 0}}
+
+/* The snackbar - position it at the bottom and in the middle of the screen */
+ #snackbar {
+  visibility: hidden; /* Hidden by default. Visible on click */
+  min-width: 250px; /* Set a default minimum width */
+  margin-left: -125px; /* Divide value of min-width by 2 */
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  background-color: #333; /* Black background color */
+  color: #fff; /* White text color */
+  text-align: center; /* Centered text */
+  border-radius: 4px; /* Rounded borders */
+  padding: 16px; /* Padding */
+  position: absolute; /* Sit on top of the screen */
+  z-index: 1; /* Add a z-index if needed */
+  right: 10px; /* Center the snackbar */
+  top: 10px; /* 30px from the bottom */
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+#snackbar.show {
+    visibility: visible;    
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+
+.ab-popup {
+	position:absolute;
+	z-index:10;
+	right: 45px;
+	top:10px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	border-radius: 3px;
+}
+
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+  from {top: 0; opacity: 0;}
+  to {top: 10px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {top: 0; opacity: 0;}
+  to {top: 10px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {top: 10px; opacity: 1;}
+  to {top: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {top: 10px; opacity: 1;}
+  to {top: 0; opacity: 0;}
+} 
+
+
+.ab-toggle-control {
+  display: block;
+  z-index:10;
+  position: relative;
+  padding-left: 100px;
+  margin-bottom: 12px;
   cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
-  
-.is-default-bgcolor {
-	background-color: #333; !important; 
-	color:#fff!important;
+.ab-toggle-control input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
 }
+.ab-toggle-control input:checked ~ .ab-control {
+  background-color: hsl(224, 5%, 47%);
+}
+.ab-toggle-control input:checked ~ .ab-control:after {
+  left: 28px;
+}
+.ab-toggle-control .ab-control {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 50px;
+  border-radius: 25px;
+  background-color: hsl(227, 8%, 23%);
+  transition: background-color 0.15s ease-in;
+}
+.ab-toggle-control .ab-control:after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 25px;
+  background: white;
+  transition: left 0.15s ease-in;
+}
+
 
 
 

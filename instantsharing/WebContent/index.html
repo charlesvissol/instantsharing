@@ -2,19 +2,47 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="styles/w3.css">
-<title>Instant Sharing Entry Point</title>
+
+	<link rel="stylesheet" href="styles/w3.css">
+	<link rel="stylesheet" href="styles/is.css">
+
+<title>Instant Sharing</title>
+
+<script src="scripts/w3.js"></script> 
+
+	<style>
+		body, h1, h2, h3, h4, h5, h6 {
+			font-family: "Raleway", sans-serif
+		}
+		
+		body, html {
+			height: 100%;
+			line-height: 1.8;
+			background-color: hsl(216, 7%, 14%);
+		}
+	</style>
 </head>
 <body>
 <!-- First page to access to ConfluenceViewer. Redirect automatically the user to Welcome Servlet -->
 <div class="w3-display-middle">
 	<div>
-		<img src="pictures/InstantsharingIcon.svg"/>
+	    <a href="#home" class="w3-bar-item ab-gray-light w3-wide" style="font-size: xx-large;">
+	    	<span class="ab-red" style="font-weight: bold;">I</span>nstant <span class="ab-red"  style="font-weight: bold;">S</span>haring
+	    </a>
 	</div>
 </div>
 	<script>
 		var userLang = navigator.language || navigator.userLanguage; 
-		window.location.href = "Welcome?lang=" + userLang;//Go to Welcome Servlet
+		//window.location.href = "Welcome?lang=" + userLang;//Go to Welcome Servlet
+		window.location.href = "AnonymousWelcome";//Go to Welcome Servlet for anonymous connection
 	</script>
+	
+	
+ <div w3-include-html="Footer.html"></div> 
+	
+<script>
+w3.includeHTML();
+</script>
+	
 </body>
 </html>

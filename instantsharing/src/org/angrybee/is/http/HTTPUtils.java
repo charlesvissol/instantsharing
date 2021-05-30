@@ -95,13 +95,14 @@ public class HTTPUtils {
 	 */
 	public static void deleteSession(HttpSession session, String fromUrl) {
 		
-			String userId = (String) session.getAttribute("isuser_id");//Get user id from current Session
+			//String userId = (String) session.getAttribute("isuser_id");//Get user id from current Session
 			
-			Logger.getLogger(HTTPUtils.class.getName()).log(Level.INFO, "<" + HTTPUtils.class.getName() + "> Before reconnecting, user (Id <" + userId + ">) is disconnecting by Instant File Sharing because session remains...");
+			//Logger.getLogger(HTTPUtils.class.getName()).log(Level.INFO, "<" + HTTPUtils.class.getName() + "> Before reconnecting, user (Id <" + userId + ">) is disconnecting by Instant File Sharing because session remains...");
 			
+		/*
 			if(userId != null)//Only if Session has not ended
 				DbHistory.addUserHistory(Integer.parseInt(userId), ISConstants.DISCONNECT, fromUrl, null);//Track disconnection
-			
+		*/
 			
 		    session.invalidate();//Destroy Session
 		

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<link rel="stylesheet" href="styles/w3.css">
+<link rel="stylesheet" href="styles/is.css">
+<link rel="stylesheet" href="styles/dropzone.css">
+
+<title>Anonymous sharing</title>
+
+	<script type="text/javascript" src="scripts/w3.js"></script> 
+	<script type="text/javascript" src="scripts/instantsharing.js"></script> 
+	<script type="text/javascript" src="scripts/compatibility.js"></script>
+	<script type="text/javascript" src="scripts/modernizr-custom.js"></script> 
+	<script type="text/javascript" src="scripts/dropzone.js"></script>
+ 
+<style>
+
+#dragdrop {
+	transition: margin-left .5s; /* If you want a transition effect */
+	padding: 20px;
+}
+
+
+.ab-btn {
+  background-color: hsl(220, 13%, 18%);
+  width:105px;
+  border: 3px solid hsl(220, 13%, 18%);
+  color: hsl(219, 13%, 66%);
+  padding: 12px 16px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.ab-btn:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+.ab-btn-green {
+  background-color: hsl(192, 100%, 58%);
+  width:105px;
+  border: 3px solid hsl(192, 100%, 58%);
+  padding: 12px 16px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.ab-sidebar {
+	height: 20%; /* 100% Full-height */
+	top:6%;
+	width: 0; /* 0 width - change this with JavaScript */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Stay on top */
+	right: 0;
+	overflow-x: hidden; /* Disable horizontal scroll */
+	/*padding-top: 60px;  Place content 60px from the top */
+	transition: 0.5s;
+	/* 0.5 second transition effect to slide in the sidebar */
+}
+
+
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+	.ab-sidebar {
+		padding-top: 15px;
+	}
+}
+
+.ab-dropzone{
+	position:absolute;
+	top:50%;
+	left:50%;
+	transform:translate(-50%,-50%);
+	-ms-transform:translate(-50%,-50%);
+	animation: dropzoneappears 1s;
+}
+
+@keyframes dropzoneappears {
+	0% {left:0px;}
+	100% {left:50%;}
+}
+
+
+</style>
+
+
+</head>
+<body class="ab-dark-mode">
+
+<!-- Name of the tool -->
+<div class="w3-top">
+  <div class="w3-row-padding w3-animate-top">
+    <h3 class="w3-rest ab-gray-light w3-left">
+    	<span class="ab-red" style="font-weight: bold;">I</span>nstant <span class="ab-red"  style="font-weight: bold;">S</span>haring 1.0
+    </h3>
+    
+    <!-- Feature to modify the Dark/Light Mode  -->
+   <div class="w3-col w3-right w3-margin-top" style="width:150px;z-index:100;">
+	  <label class="ab-toggle-control">
+	    <input id="display-mode" type="checkbox" onclick="setDisplayMode()" checked="checked">
+	    <span class="ab-control"></span>
+	  </label>
+  </div>
+  
+  <!-- For this first release, we hide this icon that allow users to access to identification -->
+	<a href="#" onclick="settings()" class="w3-display-topright w3-hide" style="margin-top:10px;margin-right:10px;"><img id="img-settings" src="pictures/settings_suggest_white_24dp.svg" /></a>
+  </div>
+</div>
+
+
+
+	<!-- Main container to drag & drop files -->
+	<div id="dragdrop" class="w3-container">
+	  <div class="ab-dropzone">
+		<form action="Uploader" method="POST" class="dropzone w3-panel" id="dropzone"  title="Drop files here to upload">
+		  	<div class="w3-center" style="cursor: pointer;"><img src="pictures/angrybee_drag_drop.svg" style="cursor: pointer;" width="40%"/></div>
+		</form>	
+	
+	  </div> 
+	</div>
+  
+  <!-- Button to display when user drag & drop file(s) in the Drag&Drop Area -->
+	<div id="share-btn" class="ab-sidebar w3-margin-right w3-animate-right" style="cursor: pointer;display:none;">
+
+		<div class="w3-row w3-section">
+			<div class="w3-rest"><input type="text" id="link" value="id_of_upload" style="opacity: 0.0;"></div>
+			<div class="w3-col">
+				<button id="copy-btn" class="ab-btn w3-round" onclick="copyAndPopup('Link copied')" title="Copy download link to clipboard">Copy link</button>
+			</div>
+		  
+		  </div>
+	</div>
+
+	
+ 
+<!-- Footer -->
+ <div w3-include-html="Footer.html"></div> 
+
+<script>
+/**
+ * Display Footer
+ */
+w3.includeHTML();
+
+
+var storage = localStorageEnabled();
+
+if(storage === false){
+	var settings = document.getElementById("img-settings");
+	settings.style.display = "none";
+
+}
+
+
+
+
+
+/**
+ * Action to display the Receivers icon when 
+ */
+ 
+var fileAdded = 0;
+
+/**
+ * Displays the copy-to-clipboard button after the first files has been drag-&-dropped
+ * Set the maximum size of uploads to 5GB.
+ */
+Dropzone.options.dropzone = {
+		createImageThumbnails: false,
+		timeout: 1000000,
+		forceChunking: true,
+		parallelUploads: 10,
+		maxFilesize: 5000,
+		  init: function() {
+		    this.on("addedfile", function(file) { 
+		    	if(fileAdded === 0){//First time drag&drop
+		    		fileAdded = 1;
+		    		w3.show("#share-btn");//Works with style="display:none" -> style="display:block"
+		    		document.getElementById("share-btn").style.width = "150px";
+		    		document.getElementById("dragdrop").style.marginRight = "150px";
+		    		
+		    	}
+		    });
+		  }
+};
+
+function copyAndPopup(content){
+	copy();
+	var btn = document.getElementById("copy-btn");
+	
+	btn.innerText = "Copied!";
+	btn.setAttribute("class", "ab-btn-green w3-round");
+	//btn.className.replace("ab-btn w3-round", "ab-btn-green w3-round");
+	
+	setTimeout(function(){ btn.setAttribute("class", "ab-btn w3-round"); btn.innerText = "Copy link";}, 500);
+	//setTimeout(function(){ btn.innerText = "Copy link"; }, 500);
+	//btn.innerText = "Copy link";
+	
+	
+}
+
+function copy() {
+	  /* Get the text field */
+	  var copyText = document.getElementById("link");
+	  //var txt = copyText.textContent;
+	  /* Select the text field */
+	  copyText.select();
+	  copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+	  /* Copy the text inside the text field */
+	  document.execCommand("copy");
+
+	  /* Alert the copied text */
+	  //alert("Copied the text: " + copyText.value);
+} 
+
+/**
+ * Function for the future release with authentication
+ * => Using Json Web Token (See https://www.jonathan-petitcolas.com/2014/11/27/creating-json-web-token-in-javascript.html)
+ */
+/*
+ function settings() {
+	  
+
+
+	  var x = localStorage.getItem("name");
+	  alert(x);
+	  
+	}
+*/
+	
+function setDisplayMode(){
+	var checkBox = document.getElementById("display-mode");
+	var img = document.getElementById("img-settings");
+	
+	if (checkBox.checked == true){
+	    document.body.className = "ab-dark-mode";
+	    img.src = "pictures/settings_suggest_white_24dp.svg";
+	  } else {
+		  document.body.className = "ab-light-mode";
+		  img.src = "pictures/settings_suggest_black_24dp.svg";
+	  }
+}	
+	
+	
+</script>
+
+</body>
+</html>
