@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+	
+	<link rel="stylesheet" href="styles/w3.css">
+	<link rel="stylesheet" href="styles/instantsharing.css">
+
+<title>Download</title>
+
+	<script type="text/javascript" src="scripts/w3.js"></script> 
+	<script type="text/javascript" src="scripts/instantsharing.js"></script> 
+	<script type="text/javascript" src="scripts/compatibility.js"></script>
+	<script type="text/javascript" src="scripts/modernizr-custom.js"></script> 
+
+<style>
+
+.md-textfield   {
+    display: inline-block;
+    /*height: 20px;*/
+    padding-top: 25px;
+    padding-right: 25px;
+    position: relative;
+    background-color: hsl(227, 8%, 23%);
+    border-bottom: 1px solid white;
+}
+.md-textfield-input   {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    color:white;
+    background: transparent;
+    border: none;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    padding: 4px 0px 4px 4px;
+    position: relative;
+    top:-15px;
+    left:10px;
+    z-index: 1;
+}
+.md-textfield .md-textfield-input:focus {
+    outline: none;
+}
+
+.md-textfield img {
+    position:relative;
+    top:-14px;
+    right: -15px;
+    cursor: pointer;
+}
+
+
+
+.md-textfield label {
+    color: hsl(224, 5%, 47%);
+    font-family: 'Roboto', sans-serif;
+    font-size: 13px;
+    left: 10px;
+    position: absolute;
+    top: 12px;
+    transition: top .1s ease-in 0s;
+    z-index: 1;
+}
+
+.md-textfield .md-textfield-input:focus + label {
+        color: white;
+        top: 0px;
+        font-size: 10px;
+    }
+
+.md-textfield .md-textfield-input:valid + label {
+        top: 0px;
+}
+
+
+</style>
+
+</head>
+<body class="ab-dark-mode">
+
+<div class="w3-top">
+	<div class="w3-row-padding ab-animate-top">
+	    <h3 class="w3-rest ab-gray-light w3-left">
+	    	<span class="ab-red" style="font-weight: bold;">I</span>nstant <span class="ab-red"  style="font-weight: bold;">S</span>haring 1.0
+	    </h3>
+	</div>
+</div>
+
+<div class="w3-display-middle">
+	<p>What is your Token?</p>
+	
+	
+	
+	<div class="md-textfield">
+	    <input type="text" class="md-textfield-input" id="token" name="token" required autocomplete="off">
+	    <label for="token">Token</label>
+	    <img src="pictures/send_and_archive_white_24dp.svg" title="Get your downloads"/>
+	</div>
+</div>
+
+
+
+<!-- Footer -->
+ <div w3-include-html="Footer.html"></div> 
+
+<script>
+/**
+ * Display Footer
+ */
+w3.includeHTML();
+
+</script>
+
+
+</body>
+</html>
